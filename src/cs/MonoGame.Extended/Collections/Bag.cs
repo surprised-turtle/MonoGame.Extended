@@ -142,6 +142,24 @@ namespace MonoGame.Extended.Collections
             return isResult;
         }
 
+        public int RemoveAll(Predicate<T> predicate)
+        {
+            var numRemoved = 0;
+
+            for (var i = Count - 1; i >= 0; i--)
+            {
+                if (predicate(this[i]))
+                {
+                    --Count;
+                    _items[i] = _items[Count];
+                    _items[Count] = default(T);
+                    numRemoved++;
+                }
+            }
+
+            return numRemoved;
+        }
+
         private void EnsureCapacity(int capacity)
         {
             if (capacity < _items.Length)
